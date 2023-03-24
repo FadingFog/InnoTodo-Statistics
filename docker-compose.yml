@@ -1,0 +1,39 @@
+services:
+  mongodb:
+    image: mongo
+    volumes:
+      - mongo:/data/db
+    env_file:
+      - ./.env
+    expose:
+      - "${MONGODB_PORT:-27017}"
+
+  statistics:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/app
+    env_file:
+      - ./.env
+    expose:
+      - "9000"
+    depends_on:
+      - mongodb
+
+  kafka_consumer:
+    build:
+      context: ./
+    command: python kafka_client.py
+    env_file:
+      - ./.env
+    depends_on:
+      - statistics
+
+networks:
+  default:
+    name: messaging-net
+    external: true
+
+volumes:
+  mongo:
