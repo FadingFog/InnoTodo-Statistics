@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: statistics-depl
+  labels:
+    app: statistics-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: statistics-app
+  template:
+    metadata:
+      labels:
+        app: statistics-app
+    spec:
+      containers:
+        - name: statistics-app
+          image: fadingfog/innotodo:statistics
+          ports:
+            - containerPort: 9000
+          envFrom:
+            - configMapRef:
+                name: stats-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: statistics-app-svc
+spec:
+  selector:
+    app: statistics-app
+  ports:
+    - protocol: TCP
+      port: 9000
+      targetPort: 9000

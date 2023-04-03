@@ -21,7 +21,7 @@ class StatisticsServices:
             cls.model.action == ActionEnum.NOTE_MARKED_DONE) \
             .count()
 
-        done_notes_ratio = total_done_notes / total_created_notes
+        done_notes_ratio = total_done_notes / total_created_notes if total_created_notes else 0
 
         data = {
             'user_id': user_id,

@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: stats-config
+data:
+  MONGO_INITDB_ROOT_USERNAME: "admin"
+  MONGO_INITDB_ROOT_PASSWORD: "admin"
+  DATABASE_URL: "mongodb://admin:admin@mongo-svc:27017/stats?authSource=admin"
+  KAFKA_BOOTSTRAP_SERVERS: "kafka-svc:9093"

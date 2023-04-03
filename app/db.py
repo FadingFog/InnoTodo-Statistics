@@ -7,9 +7,9 @@ from app.models import UserAction
 
 
 async def init_database():
-    logger.debug("Established database connection")
     client = AsyncIOMotorClient(settings.DATABASE_URL)
     await init_beanie(
         database=client.get_default_database(),
         document_models=[UserAction]
     )
+    logger.debug("Established database connection")
